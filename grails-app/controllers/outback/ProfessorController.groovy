@@ -5,15 +5,6 @@ import kangaroo.Professor
 
 class ProfessorController extends BaseController {
 
-    def beforeInterceptor = {
-
-        if (request.method == "GET" && !isAuthenticated()) {
-            notAuthenticatedError();
-            return false;
-        }
-
-    }
-
     def individual = {
 
         switch (request.method) {
