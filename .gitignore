@@ -1,3 +1,9 @@
 
 .idea/workspace.xml
 target/
+.db
+dev_db.h2.db
+
+dev_db.trace.db
+
+dev_db.lock.db
