@@ -42,7 +42,7 @@ class SecurityFilters {
     def extractAuthentication(request) {
 
         String[] header = request.getHeader("Authorization")?.split(" ");
-        if (header.size() == 2 && header[0] == "Basic") {
+        if (header?.size() == 2 && header[0] == "Basic") {
 
             String decoded = new String(header[1].decodeBase64());
 
