@@ -16,7 +16,11 @@ environments {
     development {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://localhost:3306/kangaroo?useUnicode=true&amp;characterEncoding=utf8"
+            url = "jdbc:h2:dev_db;MVCC=TRUE"
+            driverClassName = "org.h2.Driver"
+            username = "sa"
+            password = ""
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
         }
     }
     test {
