@@ -1,8 +1,10 @@
 package kangaroo.api
 
+import kangaroo.AppUtils
+
 class EditKey {
 
-    String id = kangaroo.AppUtils.generateRandomToken()
+    String id = AppUtils.generateRandomToken()
 
     static constraints = {
         id(maxSize: 32, blank: false)
