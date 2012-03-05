@@ -3,13 +3,25 @@ package outback
 import grails.converters.JSON
 import kangaroo.Professor
 
-class ProfessorController {
+class ProfessorController extends BaseController {
+
+    def beforeInterceptor = {
+
+        if (request.method == "GET" && !isAuthenticated()) {
+            notAuthenticatedError();
+            return false;
+        }
+
+    }
 
     def individual = {
 
         switch (request.method) {
             case "GET":
                 showIndividual();
+                break;
+            case "POST":
+                println "POST"
                 break;
             case "DELETE":
                 deleteIndividual();
@@ -26,6 +38,7 @@ class ProfessorController {
     }
 
     def deleteIndividual() {
+
         def professor = getSelected()
         if (professor) {
             professor.delete(flush: true)
