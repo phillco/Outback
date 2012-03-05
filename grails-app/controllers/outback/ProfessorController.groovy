@@ -11,14 +11,34 @@ class ProfessorController {
             case "GET":
                 showIndividual();
                 break;
+            case "DELETE":
+                deleteIndividual();
+                break;
         }
     }
 
     def showIndividual() {
-        def professor = Professor.get(params.id)
+        def professor = getSelected()
         if (professor)
             render(professor as JSON)
         else
-            render([error: "NotFound", errorMessage: "The indicated professor could not be found."] as JSON)
+            notFoundError()
     }
+
+    def deleteIndividual() {
+        def professor = getSelected()
+        if (professor) {
+            professor.delete(flush: true)
+            if (professor.hasErrors())
+                render([status: 500, contentType: "text/json", text: [error: "ValidationFailed", errorMessage: "The indicated professor could not be deleted.", errorDetails: professor.errors.allErrors.join("/")] as JSON])
+            else
+                render([status: "Deleted"] as JSON)
+        }
+        else
+            notFoundError()
+    }
+
+    Professor getSelected() { Professor.get(params.id) }
+
+    def notFoundError() { render([status: 404, contentType: "text/json", text: ([error: "NotFound", errorMessage: "The indicated professor could not be found."] as JSON)]) }
 }
