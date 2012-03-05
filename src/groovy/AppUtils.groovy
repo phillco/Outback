@@ -1,10 +1,7 @@
 package kangaroo
 
 import grails.util.Environment
-import groovy.util.slurpersupport.GPathResult
 import java.security.SecureRandom
-import org.htmlcleaner.HtmlCleaner
-import org.htmlcleaner.SimpleXmlSerializer
 
 /**
  * Useful stuff.
@@ -81,27 +78,6 @@ public class AppUtils {
         def elapsedTime = (System.currentTimeMillis() - startTime)
         def timeInSeconds = ((double) (elapsedTime / 1000.0)).round(2);
         return timeInSeconds;
-    }
-
-    /**
-     * Converts the given HTML page into a Groovy-compatible XML tree.
-     */
-    static GPathResult cleanAndConvertToXml(String html) {
-
-        if (html?.length() == 0)
-            return;
-
-        // Clean any messy HTML
-        def cleaner = new HtmlCleaner()
-        def node = cleaner.clean(html)
-
-        // Convert from HTML to XML
-        def props = cleaner.getProperties()
-        def serializer = new SimpleXmlSerializer(props)
-        def xml = serializer.getXmlAsString(node)
-
-        // Parse the XML into a document we can work with
-        return new XmlSlurper(false, false).parseText(xml)
     }
 
     /**

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Outback.iml" filepath="$PROJECT_DIR$/Outback.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Outback-grailsPlugins.iml" filepath="$PROJECT_DIR$/Outback-grailsPlugins.iml" />
     </modules>
   </component>
 </project>
