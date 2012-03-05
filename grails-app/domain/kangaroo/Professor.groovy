@@ -30,8 +30,8 @@ class Professor {
     String department
     String office
     String phone
-    String email
-    String privateEditKey = kangaroo.AppUtils.generateRandomToken()
+    String email = "${id}@austincollege.edu"
+    String privateEditKey = AppUtils.generateRandomToken()
 
     static constraints = {
         id(maxSize: 64, blank: false)
