@@ -1,6 +1,7 @@
 package outback
 
 import grails.converters.JSON
+import kangaroo.AppUtils
 import kangaroo.Professor
 
 class ProfessorController extends BaseController {
@@ -18,7 +19,14 @@ class ProfessorController extends BaseController {
         if (params.professor) {
 
             // Create or update the professor.
+            def existed = Professor.exists(params.id)
             def professor = Professor.findOrCreateWhere(id: params.id)
+
+            // Set some parameters...
+            professor.id = params.id
+            professor.privateEditKey = AppUtils.generateRandomToken()
+            professor.department = params.professor.departmentString // Temporary...
+
             bindData(professor, params.professor);
             professor.save();
 
@@ -27,8 +35,8 @@ class ProfessorController extends BaseController {
                 render([error: "ValidationFailed", errorMessage: "The indicated professor could not be saved.", errorDetails: professor.errors.allErrors.join("/")] as JSON)
             }
             else {
-                response.status = 201;
-                render([status: "Saved"] as JSON)
+                response.status = existed ? 200 : 201;
+                render([status: "Saved", object: professor] as JSON)
             }
         }
         else
