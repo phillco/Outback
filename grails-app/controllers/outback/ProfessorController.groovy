@@ -5,22 +5,7 @@ import kangaroo.Professor
 
 class ProfessorController extends BaseController {
 
-    def individual = {
-
-        switch (request.method) {
-            case "GET":
-                showIndividual();
-                break;
-            case "POST":
-                println "POST"
-                break;
-            case "DELETE":
-                deleteIndividual();
-                break;
-        }
-    }
-
-    def showIndividual() {
+    def show = {
         def professor = getSelected()
         if (professor)
             render(professor as JSON)
@@ -28,7 +13,29 @@ class ProfessorController extends BaseController {
             notFoundError()
     }
 
-    def deleteIndividual() {
+    def update = {
+
+        if (params.professor) {
+
+            // Create or update the professor.
+            def professor = Professor.findOrCreateWhere(id: params.id)
+            bindData(professor, params.professor);
+            professor.save();
+
+            if (professor.hasErrors()) {
+                response.status = 500;
+                render([error: "ValidationFailed", errorMessage: "The indicated professor could not be saved.", errorDetails: professor.errors.allErrors.join("/")] as JSON)
+            }
+            else {
+                response.status = 201;
+                render([status: "Saved"] as JSON)
+            }
+        }
+        else
+            missingParametersError(['<body>'])
+    }
+
+    def delete = {
 
         def professor = getSelected()
         if (professor) {

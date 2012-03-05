@@ -9,7 +9,9 @@ class UrlMappings {
 
         "/"(controller: "home")
 
-        "/professor/$id"(controller: "professor", action: "individual")
+        "/professor/$id?"(controller: "professor", parseRequest: true) {
+            action = [GET: "show", PUT: "update", DELETE: "delete", POST: "save"]
+        }
 
         "500"(view: '/error')
     }
