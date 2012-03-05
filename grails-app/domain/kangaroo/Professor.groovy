@@ -51,6 +51,14 @@ class Professor {
         id(column: 'user_id', generator: 'assigned')
     }
 
+    def beforeDelete = {
+        // Delete any many-many relationships that belong to this professor.
+        Professor.withNewSession {
+            Teaching.findAllByProfessor(this).each { it.delete() }
+            ProfessorOfficeHours.findAllByProfessor(this).each { it.delete() }
+        }
+    }
+
     String toString() { name }
 
     /**
